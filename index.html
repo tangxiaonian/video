@@ -1,0 +1,161 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>海康&大华</title>
+</head>
+
+<style>
+
+    #app {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 80%;
+        height: 600px;
+        margin: 0 auto;
+        background-color: red;
+    }
+
+    #app > video {
+        width: 20%;
+        height: auto;
+    }
+
+</style>
+
+<body>
+<div id="app">
+    <video v-for="item in 11"
+           :key="item"
+           :class="`demo-video${item}`"
+           :ref="`player${item}`"
+           muted autoplay>
+    </video>
+</div>
+<script src="./vue.js"></script>
+<script src="./flv.js"></script>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data: {
+            rtsp: [
+                // 海康的视频
+                {
+                    url: "rtsp://admin:abc12345@192.168.228.182:554/Streaming/Channels/102",
+                    params:{
+                        "transportmode":"unicast",
+                    }
+                },
+                {
+                    url: "rtsp://admin:abc12345@192.168.228.182:554/Streaming/Channels/202",
+                    params:{
+                        "transportmode":"unicast",
+                    }
+                },
+                {
+                    url: "rtsp://admin:abc12345@192.168.228.182:554/Streaming/Channels/302",
+                    params:{
+                        "transportmode":"unicast",
+                    }
+                },
+                {
+                    url: "rtsp://admin:abc12345@192.168.228.182:554/Streaming/Channels/402",
+                    params:{
+                        "transportmode":"unicast",
+                    }
+                },
+                {
+                    url: "rtsp://admin:abc12345@192.168.228.182:554/Streaming/Channels/502",
+                    params:{
+                        "transportmode":"unicast",
+                    }
+                },
+                {
+                    url: "rtsp://admin:abc12345@192.168.228.182:554/Streaming/Channels/602",
+                    params:{
+                        "transportmode":"unicast",
+                    }
+                },
+                {
+                    url: "rtsp://admin:abc12345@192.168.228.182:554/Streaming/Channels/702",
+                    params:{
+                        "transportmode":"unicast",
+                    }
+                },
+                {
+                    url: "rtsp://admin:abc12345@192.168.228.182:554/Streaming/Channels/802",
+                    params:{
+                        "transportmode":"unicast",
+                    }
+                },
+                {
+                    url: "rtsp://admin:abc12345@192.168.228.182:554/Streaming/Channels/902",
+                    params:{
+                        "transportmode":"unicast",
+                    }
+                },
+                {
+                    url: "rtsp://admin:abc12345@192.168.228.182:554/Streaming/Channels/1002",
+                    params:{
+                        "transportmode":"unicast",
+                    }
+                },
+                // 大华的视频
+                {
+                    url: "rtsp://admin:admin@192.168.228.181:554/cam/realmonitor",
+                    params:{
+                        "channel":1,
+                        "subtype":1
+                    }
+                }
+            ],
+            player1: null, player2: null, player3: null, player4: null, player5: null,
+            player6: null, player7: null, player8: null, player9: null, player10: null,
+        },
+        methods: {
+            run(player,url,video,params) {
+                player = flvjs.createPlayer({
+                    type: "flv",
+                    isLive: true,
+                    url: `ws://221.229.215.1:8888/rtsp/id/?url=${url}&params=${JSON.stringify(params)}`
+                });
+                player.attachMediaElement(video);
+                try {
+                    player.load();
+                    player.play();
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        },
+        mounted() {
+            if (flvjs.isSupported()) {
+                this.run(this.player1, this.rtsp[0].url, this.$refs.player1[0],this.rtsp[0].params);
+                this.run(this.player2, this.rtsp[1].url, this.$refs.player2[0],this.rtsp[1].params);
+                this.run(this.player3, this.rtsp[2].url, this.$refs.player3[0],this.rtsp[2].params);
+                this.run(this.player4, this.rtsp[3].url, this.$refs.player4[0],this.rtsp[3].params);
+                this.run(this.player5, this.rtsp[4].url, this.$refs.player5[0],this.rtsp[4].params);
+                this.run(this.player6, this.rtsp[5].url, this.$refs.player6[0],this.rtsp[5].params);
+                this.run(this.player7, this.rtsp[6].url, this.$refs.player7[0],this.rtsp[6].params);
+                this.run(this.player8, this.rtsp[7].url, this.$refs.player8[0],this.rtsp[7].params);
+                this.run(this.player9, this.rtsp[8].url, this.$refs.player9[0],this.rtsp[8].params);
+                this.run(this.player10, this.rtsp[10].url, this.$refs.player10[0],this.rtsp[10].params);
+            }
+        },
+        beforeDestroy() {
+            this.player1.destory();
+            this.player2.destory();
+            this.player3.destory();
+            this.player4.destory();
+            this.player5.destory();
+            this.player6.destory();
+            this.player7.destory();
+            this.player8.destory();
+            this.player9.destory();
+            this.player10.destory();
+        }
+    });
+</script>
+</body>
+</html>
